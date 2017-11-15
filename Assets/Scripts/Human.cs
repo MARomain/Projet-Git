@@ -22,6 +22,13 @@ public class Human : MonoBehaviour
     public Rigidbody m_Rigidbody;
     private float m_deadzone = 0.2f;
 
+    [Space]
+
+    [Header("Aiming")]
+    public float m_RotationSpeed;
+    private float m_TankTurretUpValue;
+    private float m_TankTurretRightValue;
+    Vector3 finalDir;
 
     public void Movement()
     {
@@ -42,8 +49,8 @@ public class Human : MonoBehaviour
 
     private void Update()
     {
-        // Store the value of both input axes.
 
+        //Movement deadzone
         m_MovementInputValue = Input.GetAxis("Horizontal");
         if (Mathf.Abs(m_MovementInputValue) < m_deadzone)
         {
@@ -56,5 +63,49 @@ public class Human : MonoBehaviour
             m_TurnInputValue = 0;
         }
 
+
+        //Turret deadzone
+        m_TankTurretRightValue = Input.GetAxis("HorizontalTurret");
+        if (Mathf.Abs(m_TankTurretRightValue) < m_deadzone)
+        {
+            m_TankTurretRightValue = 0;
+        }
+
+
+        m_TankTurretUpValue = Input.GetAxis("VerticalTurret");
+        if (Mathf.Abs(m_TankTurretUpValue) < m_deadzone)
+        {
+            m_TankTurretUpValue = 0;
+        }
+
+        Turn();
+
     }
+
+
+    private void Turn()
+    {
+
+        // transform.Rotate(Vector3.up, TurretTurnInputValue * TurretTurnSpeed * Time.deltaTime );        //* TurretTurnSpeed * Time.deltaTime
+        //Debug.Log(TurretTurnInputValue);
+
+
+        Vector3 TurretVector = new Vector3(m_TankTurretRightValue, 0, m_TankTurretUpValue);
+        float VectorLenght = Vector3.Magnitude(TurretVector);
+        float step = m_RotationSpeed * Time.deltaTime;
+        Vector3 newDir = Vector3.RotateTowards(transform.forward, TurretVector, step, 0.0f);
+
+
+        if (VectorLenght > m_deadzone)
+        {
+            finalDir = Vector3.Lerp(transform.forward, newDir, 1);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(finalDir), Time.deltaTime * m_RotationSpeed);
+            Debug.Log(m_TankTurretUpValue);
+        }
+
+
+
+    }
+
+
 }
