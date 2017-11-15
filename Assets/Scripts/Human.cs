@@ -100,7 +100,7 @@ public class Human : MonoBehaviour
         {
             finalDir = Vector3.Lerp(transform.forward, newDir, 1);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(finalDir), Time.deltaTime * m_RotationSpeed);
-            Debug.Log(m_TankTurretUpValue);
+            Debug.Log(newDir);
         }
 
 
