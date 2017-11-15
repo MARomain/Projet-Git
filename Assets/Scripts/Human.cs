@@ -19,7 +19,7 @@ public class Human : MonoBehaviour
     private float m_MovementInputValue;
     private float m_TurnInputValue;
     public float m_Speed = 12f;
-    private Rigidbody m_Rigidbody;
+    public Rigidbody m_Rigidbody;
     private float m_deadzone = 0.2f;
 
 
@@ -44,13 +44,13 @@ public class Human : MonoBehaviour
     {
         // Store the value of both input axes.
 
-        m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
+        m_MovementInputValue = Input.GetAxis("Horizontal");
         if (Mathf.Abs(m_MovementInputValue) < m_deadzone)
         {
             m_MovementInputValue = 0;
         }
 
-        m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
+        m_TurnInputValue = Input.GetAxis("Vertical");
         if (Mathf.Abs(m_TurnInputValue) < m_deadzone)
         {
             m_TurnInputValue = 0;
