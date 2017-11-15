@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Warrior : Human
 {
+    public int warriorLife;
 
-    public Warrior() : base(life: 50,speed: 10,damage: 10, fireRate: 10)
+    public void Start()
     {
-
+        
     }
-	
-		
-	
+
+
+
 }
