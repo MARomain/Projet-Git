@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager> {
 
-    public PlayerManager[] m_Tanks;
-    public GameObject m_TankPrefab;
+    public GameObject player1Prefab;
+    public GameObject player2Prefab;
+    public Transform m_SpawnPointPlayer1;                          // The position and direction the tank will have when it spawns.
+    public Transform m_SpawnPointPlayer2;                          // The position and direction the tank will have when it spawns.
+    private Human m_Human;
 
 
     void Start()
@@ -15,52 +18,45 @@ public class GameManager : Singleton<GameManager> {
         Human mage = new Mage();
 
 
-        SpawnAllTanks();
-
-
-        //StartCoroutine(GameLoop());
+        SpawnPlayers();
     }
 
-    private void SpawnAllTanks()
+    private void SpawnPlayers()
     {
-        // For all the tanks...
-        for (int i = 0; i < m_Tanks.Length; i++)
-        {
-            // ... create them, set their player number and references needed for control.
-            m_Tanks[i].m_Instance =
-                Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
-            m_Tanks[i].m_PlayerNumber = i + 1;
-            m_Tanks[i].Setup();
-        }
+        Instantiate(player1Prefab,m_SpawnPointPlayer1);
+        Instantiate(player2Prefab,m_SpawnPointPlayer2);
     }
 
 
 
-        private void ResetAllTanks()
-        {
-            for (int i = 0; i < m_Tanks.Length; i++)
-            {
-                m_Tanks[i].Reset();
-            }
-        }
-
-
-        private void EnableTankControl()
-        {
-            for (int i = 0; i < m_Tanks.Length; i++)
-            {
-                m_Tanks[i].EnableControl();
-            }
-        }
-
-
-        private void DisableTankControl()
-        {
-            for (int i = 0; i < m_Tanks.Length; i++)
-            {
-                m_Tanks[i].DisableControl();
-            }
-        }
-
-
+    public void DisableControl()
+    {
+        m_Human.enabled = false;
     }
+
+
+    // Used during the phases of the game where the player should be able to control their tank.
+    public void EnableControl()
+    {
+        m_Human.enabled = true;
+    }
+
+
+    // Used at the start of each round to put the tank into it's default state.
+    public void Reset()
+    {
+        player1Prefab.transform.position = m_SpawnPointPlayer1.position;
+        player1Prefab.transform.rotation = m_SpawnPointPlayer1.rotation;
+
+        player2Prefab.transform.position = m_SpawnPointPlayer2.position;
+        player2Prefab.transform.rotation = m_SpawnPointPlayer2.rotation;
+
+        player1Prefab.SetActive(false);
+        player1Prefab.SetActive(true);
+
+        player2Prefab.SetActive(false);
+        player2Prefab.SetActive(true);
+    }
+
+
+}
