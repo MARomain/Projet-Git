@@ -39,7 +39,8 @@ public class Human : MonoBehaviour
         movement.Set(m_TurnInputValue, 0f, m_MovementInputValue);
         movement = movement.normalized * m_Speed * Time.deltaTime;
 
-        m_Rigidbody.MovePosition(transform.position + movement);
+        //m_Rigidbody.MovePosition(transform.position + movement);
+        transform.Translate(movement, Space.World);
 
     }
 
