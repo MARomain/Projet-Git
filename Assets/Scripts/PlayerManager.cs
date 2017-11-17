@@ -1,45 +1,52 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : Singleton<PlayerManager>
-{
-    private Human m_Human;
-    public Transform m_SpawnPoint;                          // The position and direction the tank will have when it spawns.
-    [HideInInspector] public int m_PlayerNumber;            // This specifies which player this the manager for.
-    [HideInInspector] public GameObject m_Instance;         // A reference to the instance of the tank when it is created.
+[Serializable]
 
+public class PlayerManager
+{
+
+    public Color m_PlayerColor;                             // This is the color this tank will be tinted.
+    public Transform m_SpawnPoint;                          // The position and direction the tank will have when it spawns.
+    [HideInInspector] public GameObject m_Instance;         // A reference to the instance of the tank when it is created.
+    [HideInInspector] public int m_PlayerNumber;            // This specifies which player this the manager for.
+
+
+    private Human m_Human;
 
 
     public void Setup()
     {
-        m_Human._playerNumber = m_PlayerNumber;
-        
+        // Get reference to the components
 
-        m_Human = m_Instance.GetComponent<Human>();
+
+        //MeshRenderer[] renderers = m_Instance.GetComponentsInChildren<MeshRenderer>();
+        //// Go through all the renderers...
+        //for (int i = 0; i < renderers.Length; i++)
+        //{
+        //    // ... set their material color to the color specific to this tank.
+        //        renderers[i].material.color = m_PlayerColor;
+        //}
     }
+
+
+
+
 
     public void DisableControl()
     {
-        m_Human.enabled = false;
+
     }
 
-
-    // Used during the phases of the game where the player should be able to control their tank.
     public void EnableControl()
     {
-        m_Human.enabled = true;
+
     }
 
-
-    // Used at the start of each round to put the tank into it's default state.
     public void Reset()
     {
-        m_Instance.transform.position = m_SpawnPoint.position;
-        m_Instance.transform.rotation = m_SpawnPoint.rotation;
 
-        m_Instance.SetActive(false);
-        m_Instance.SetActive(true);
     }
-
 }
