@@ -18,7 +18,7 @@ public class Human : MonoBehaviour
     private string m_TurnAxisName;
     private float m_MovementInputValue;
     private float m_TurnInputValue;
-    private float m_PressValue;
+    public float m_PressValue;
     public float m_Speed = 12f;
     public Rigidbody m_Rigidbody;
     private float m_deadzone = 0.2f;
@@ -82,12 +82,16 @@ public class Human : MonoBehaviour
         Turn();
 
         m_PressValue = Input.GetAxis("Attack");
-        Debug.Log(m_PressValue);
         if (m_PressValue == 1)
         {
             Attack();
         }
 
+        m_PressValue = Input.GetAxis("Skill");
+        if (m_PressValue == 1)
+        {
+            Skill();
+        }
 
 
     }
@@ -118,6 +122,10 @@ public class Human : MonoBehaviour
 
     public virtual void Attack()
     {      
+    }
+
+    public virtual void Skill()
+    {
     }
 
     public virtual void takeDamage(int damage)

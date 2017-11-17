@@ -5,7 +5,9 @@ using UnityEngine;
 public class Warrior : Human
 {
     public GameObject attack;
+    public GameObject skill;
     bool isAtt = false;
+    bool SkillUse = false;
 
     public override void Attack()
     {
@@ -22,6 +24,29 @@ public class Warrior : Human
         yield return new WaitForSeconds(1);
         attack.GetComponent<BoxCollider>().enabled = false;
         isAtt = false;
+    }
+    IEnumerator SkillTimeUse()
+    {
+        yield return new WaitForSeconds(2);
+        skill.gameObject.SetActive(false);
+        //skill.GetComponent<BoxCollider>().enabled = false;
+        StartCoroutine(Cooldown());
+    }
+    IEnumerator Cooldown()
+    {
+        yield return new WaitForSeconds(5);
+        SkillUse = false;
+    }
+
+    public override void Skill()
+    {
+        if (!SkillUse)
+        {
+            SkillUse = true;
+            skill.gameObject.SetActive(true);
+            //skill.GetComponent<BoxCollider>().enabled = true;
+            StartCoroutine(SkillTimeUse());
+        }
     }
 
 }
