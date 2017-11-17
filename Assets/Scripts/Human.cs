@@ -82,6 +82,7 @@ public class Human : MonoBehaviour
         Turn();
 
         m_PressValue = Input.GetAxis("Attack");
+        Debug.Log(m_PressValue);
         if (m_PressValue == 1)
         {
             Attack();
@@ -109,7 +110,6 @@ public class Human : MonoBehaviour
         {
             finalDir = Vector3.Lerp(transform.forward, newDir, 1);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(finalDir), Time.deltaTime * m_RotationSpeed);
-            Debug.Log(newDir);
         }
 
 
@@ -117,9 +117,11 @@ public class Human : MonoBehaviour
     }
 
     public virtual void Attack()
-    {
-        
+    {      
     }
 
-
+    public virtual void takeDamage(int damage)
+    {
+        _life -= damage;
+    }
 }

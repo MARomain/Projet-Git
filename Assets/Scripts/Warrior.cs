@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class Warrior : Human
 {
-    public int warriorLife;
     public GameObject attack;
-
+    bool isAtt = false;
 
     public override void Attack()
     {
-        attack.GetComponent<BoxCollider>().enabled = true;
-        StartCoroutine(TimeBetweenAttack());
-
+        if (!isAtt)
+        {
+            isAtt = true;
+            attack.GetComponent<BoxCollider>().enabled = true;
+            StartCoroutine(TimeBetweenAttack());
+        }
     } 
 
     IEnumerator TimeBetweenAttack()
     {
         yield return new WaitForSeconds(1);
         attack.GetComponent<BoxCollider>().enabled = false;
+        isAtt = false;
     }
+
 }
