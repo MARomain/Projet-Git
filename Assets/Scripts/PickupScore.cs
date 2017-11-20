@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickupScore : Score {
+public class PickupScore : MonoBehaviour {
+
+    [Header("PickupScore")]
     public int scoreValue = 10;
 
 
     private void OnTriggerEnter(Collider other)
     {
-        Score.Instance.AddScore(scoreValue);
+        if (other.gameObject.tag == "Player")
+        {
+            Score.Instance.AddScore(scoreValue, other.GetComponent<Human>().playerNumber);
+            Destroy(gameObject);
+        }
     }
 
 

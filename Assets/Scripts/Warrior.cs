@@ -8,6 +8,8 @@ public class Warrior : Human
     public GameObject skill;
     bool isAtt = false;
     bool SkillUse = false;
+    private Score score;
+
 
     public override void Attack()
     {

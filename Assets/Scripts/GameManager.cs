@@ -20,6 +20,8 @@ public class GameManager : Singleton<GameManager> {
     private PlayerManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
     private PlayerManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
 
+    public int scoreLimit = 500;
+
 
     void Start()
     {
@@ -29,9 +31,11 @@ public class GameManager : Singleton<GameManager> {
 
         PlayerManager p1 = new PlayerManager();
         p1.Setup();
-        
 
+       
         SpawnPlayers();
+
+        GameLoop();
     }
 
     private void SpawnPlayers()
@@ -40,7 +44,8 @@ public class GameManager : Singleton<GameManager> {
         {
             Players[i].m_Instance =
                 Instantiate(playerPrefab[i % playerPrefab.Length], Players[i].m_SpawnPoint.position, Players[i].m_SpawnPoint.rotation) as GameObject;
-            Players[i].m_PlayerNumber = i + 1;
+            Players[i].m_PlayerNumber = i + 1; //ça ça vient du script originel
+            Players[i].m_Instance.GetComponent<Human>().playerNumber = i + 1; // cette ligne elle sert pour le score
             Players[i].Setup();
         }
     }
@@ -78,7 +83,7 @@ public class GameManager : Singleton<GameManager> {
         ResetAllPlayers();
         DisableControl();
 
-        // Increment the round number and display text showing the players what round it is.
+         //Increment the round number and display text showing the players what round it is.
         m_RoundNumber++;
         m_MessageText.text = "ROUND " + m_RoundNumber;
 
@@ -96,11 +101,13 @@ public class GameManager : Singleton<GameManager> {
         m_MessageText.text = string.Empty;
 
         // While there is not one tank left...
-        while (!OneTankLeft())
+        while (!OnePlayerLeft() && Score.Instance.player1Score < scoreLimit && Score.Instance.player2Score < scoreLimit)
         {
             // ... return on the next frame.
             yield return null;
         }
+
+
     }
 
 
@@ -132,21 +139,21 @@ public class GameManager : Singleton<GameManager> {
 
 
     // This is used to check if there is one or fewer tanks remaining and thus the round should end.
-    private bool OneTankLeft()
+    private bool OnePlayerLeft()
     {
         // Start the count of tanks left at zero.
-        int numTanksLeft = 0;
+        int numPlayersLeft = 0;
 
         // Go through all the tanks...
         for (int i = 0; i < Players.Length; i++)
         {
             // ... and if they are active, increment the counter.
             if (Players[i].m_Instance.activeSelf)
-                numTanksLeft++;
+                numPlayersLeft++;
         }
 
         // If there are one or fewer tanks remaining return true, otherwise return false.
-        return numTanksLeft <= 1;
+        return numPlayersLeft <= 1;
     }
 
 
@@ -154,6 +161,12 @@ public class GameManager : Singleton<GameManager> {
     // This function is called with the assumption that 1 or fewer tanks are currently active.
     private PlayerManager GetRoundWinner()
     {
+        if (Score.Instance.player1Score > scoreLimit)
+            return Players[0];
+
+        if (Score.Instance.player2Score > scoreLimit)
+            return Players[1];
+
         // Go through all the tanks...
         for (int i = 0; i < Players.Length; i++)
         {
@@ -173,6 +186,7 @@ public class GameManager : Singleton<GameManager> {
         // Go through all the tanks...
         for (int i = 0; i < Players.Length; i++)
         {
+
             // ... and if one of them has enough rounds to win the game, return it.
             if (Players[i].m_Wins == m_NumRoundsToWin)
                 return Players[i];

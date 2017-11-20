@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Human : MonoBehaviour
 {
-    public int _playerNumber;
     public int _life;
     public int _speed;
     public int _damage;
@@ -30,6 +29,9 @@ public class Human : MonoBehaviour
     private float m_TankTurretUpValue;
     private float m_TankTurretRightValue;
     Vector3 finalDir;
+
+    
+    public int playerNumber;
 
     public void Movement()
     {
@@ -132,5 +134,10 @@ public class Human : MonoBehaviour
     public virtual void takeDamage(int damage)
     {
         _life -= damage;
+        if (playerNumber == 1)
+            Score.Instance.AddScore(Score.Instance.scorePerHit, 2);
+
+        if (playerNumber == 2)
+        Score.Instance.AddScore(Score.Instance.scorePerHit, 1);
     }
 }
