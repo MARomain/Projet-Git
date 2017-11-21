@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Warrior : Human
 {
@@ -9,8 +10,8 @@ public class Warrior : Human
     bool isAtt = false;
     bool SkillUse = false;
 
-
-    public override void Attack()
+    [Command]
+    public override void CmdAttack()
     {
         if (!isAtt)
         {

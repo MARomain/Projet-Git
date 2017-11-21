@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Mage : Human
 {
@@ -13,13 +14,15 @@ public class Mage : Human
     bool SkillUse = false;
     public int TpRange;
 
-    public override void Attack()
+    [Command]
+    public override void CmdAttack()
     {
         if (!isAtt)
         {
             isAtt = true;
             GameObject go = Instantiate<GameObject>(attack, ShootPos.transform.position, Quaternion.identity);
             go.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
+            NetworkServer.Spawn(go);
             StartCoroutine(TimeBetweenAttack());
         }        
     }

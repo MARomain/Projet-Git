@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Human : MonoBehaviour
+public class Human : NetworkBehaviour
 {
     public int _life;
     public int _speed;
@@ -46,14 +47,18 @@ public class Human : MonoBehaviour
 
     }
 
+    
     private void FixedUpdate()
     {
+        if (isLocalPlayer == false)
+            return;
         Movement();
     }
 
     private void Update()
     {
-
+        if (isLocalPlayer == false)
+            return;
         //Movement deadzone
         m_MovementInputValue = Input.GetAxis("Horizontal");
         if (Mathf.Abs(m_MovementInputValue) < m_deadzone)
@@ -87,7 +92,7 @@ public class Human : MonoBehaviour
         m_PressValue = Input.GetAxis("Attack");
         if (m_PressValue == 1)
         {
-            Attack();
+            CmdAttack();
         }
 
         m_PressValue = Input.GetAxis("Skill");
@@ -124,8 +129,8 @@ public class Human : MonoBehaviour
 
 
     }
-
-    public virtual void Attack()
+    [Command]
+    public virtual void CmdAttack()
     {      
     }
 
