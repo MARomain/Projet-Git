@@ -96,6 +96,8 @@ public class Human : MonoBehaviour
             Skill();
         }
 
+        Death();
+
 
     }
 
@@ -140,4 +142,13 @@ public class Human : MonoBehaviour
         if (playerNumber == 2)
         Score.Instance.AddScore(Score.Instance.scorePerHit, 1);
     }
+
+    public void Death()
+    {
+        if(_life <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }
