@@ -10,6 +10,8 @@ public class Mage : Human
     bool isAtt = false;
     public GameObject ShootPos;
     public float bulletSpeed;
+    bool SkillUse = false;
+    public int TpRange;
 
     public override void Attack()
     {
@@ -26,5 +28,21 @@ public class Mage : Human
     {
         yield return new WaitForSeconds(1);
         isAtt = false;
+    }
+
+    public override void Skill()
+    {
+        if (!SkillUse)
+        {
+            SkillUse = true;
+            transform.Translate(Vector3.forward * 8);
+            StartCoroutine(Cooldown());
+        }
+    }
+
+    IEnumerator Cooldown()
+    {
+        yield return new WaitForSeconds(5);
+        SkillUse = false;
     }
 }
