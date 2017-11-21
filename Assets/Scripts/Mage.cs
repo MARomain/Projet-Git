@@ -35,7 +35,7 @@ public class Mage : Human
         if (!SkillUse)
         {
             SkillUse = true;
-            transform.Translate(Vector3.forward * 8);
+            transform.Translate(Vector3.forward.normalized * TpRange);
             StartCoroutine(Cooldown());
         }
     }
