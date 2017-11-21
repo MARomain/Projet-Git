@@ -51,7 +51,7 @@ public class GameManager : Singleton<GameManager> {
             if (timeLeft > 00)
             {
                 timeLeft -= Time.deltaTime;
-                timer.text = timeLeft.ToString();
+                timer.text = Mathf.Round(timeLeft).ToString();
             }
         }
 
@@ -87,6 +87,11 @@ public class GameManager : Singleton<GameManager> {
             // If there is a game winner, restart the level.
             SceneManager.LoadScene(0);
         }
+        else if (m_RoundNumber == m_TotalRounds)    // si le nombre de round est le nombre max on stop le jeux 
+                                                    // utile dans le cas où y'a égalité (quand y'a égalité m_GameWinner = null)
+        {
+            SceneManager.LoadScene(0);
+        }
         else
         {
             // If there isn't a winner yet, restart this coroutine so the loop continues.
@@ -116,7 +121,6 @@ public class GameManager : Singleton<GameManager> {
 
     private IEnumerator RoundPlaying()
     {
-        Debug.Log("roundplaying");
         // As soon as the round begins playing let the players control the tanks.
         EnableControl();
         timerActivated = true;
@@ -224,7 +228,15 @@ public class GameManager : Singleton<GameManager> {
 
         // If there is a game winner, change the entire message to reflect that.
         if (m_GameWinner != null)
+        {
+            Debug.Log("game winner");
             message = m_GameWinner.m_ColoredPlayerText + " GAGNE LA PARTIE";
+        }
+        else if (m_RoundNumber == m_TotalRounds)
+        {
+            Debug.Log("égalité");
+            message = "EGALITE";
+        }
 
         return message;
     }
