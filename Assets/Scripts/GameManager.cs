@@ -39,7 +39,7 @@ public class GameManager : Singleton<GameManager> {
         p1.Setup();
 
        
-        //SpawnPlayers();
+        SpawnPlayers();
 
         StartCoroutine(GameLoop());
     }
@@ -57,17 +57,17 @@ public class GameManager : Singleton<GameManager> {
 
     }
 
-    //private void SpawnPlayers()
-    //{
-    //    for (int i = 0; i < Players.Length; i++)
-    //    {
-    //        Players[i].m_Instance =
-    //            Instantiate(playerPrefab[i % playerPrefab.Length], Players[i].m_SpawnPoint.position, Players[i].m_SpawnPoint.rotation) as GameObject;
-    //        Players[i].m_PlayerNumber = i + 1; //ça ça vient du script originel
-    //        Players[i].m_Instance.GetComponent<Human>().playerNumber = i + 1; // cette ligne elle sert pour le score
-    //        Players[i].Setup();
-    //    }
-    //}
+    private void SpawnPlayers()
+    {
+        for (int i = 0; i < Players.Length; i++)
+        {
+            Players[i].m_Instance =
+                Instantiate(playerPrefab[i % playerPrefab.Length], Players[i].m_SpawnPoint.position, Players[i].m_SpawnPoint.rotation) as GameObject;
+            Players[i].m_PlayerNumber = i + 1; //ça ça vient du script originel
+            Players[i].m_Instance.GetComponent<Human>().playerNumber = i + 1; // cette ligne elle sert pour le score
+            Players[i].Setup();
+        }
+    }
 
     // This is called from start and will run each phase of the game one after another.
     private IEnumerator GameLoop()
@@ -88,7 +88,6 @@ public class GameManager : Singleton<GameManager> {
             SceneManager.LoadScene(0);
         }
         else if (m_RoundNumber == m_TotalRounds)    // si le nombre de round est le nombre max on stop le jeux 
-                                                    // utile dans le cas où y'a égalité (quand y'a égalité m_GameWinner = null)
         {
             SceneManager.LoadScene(0);
         }
