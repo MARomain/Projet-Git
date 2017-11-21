@@ -5,7 +5,6 @@ using UnityEngine;
 public class Attack : MonoBehaviour {
 
     public int Damage;
-    public int scorePerHit = 10;
 
     private void OnTriggerEnter(Collider other)
     {

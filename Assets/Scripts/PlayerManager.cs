@@ -32,6 +32,10 @@ public class PlayerManager
         //    // ... set their material color to the color specific to this tank.
         //        renderers[i].material.color = m_PlayerColor;
         //}
+
+
+        // Create a string using the correct color that says 'PLAYER 1' etc based on the tank's color and the player's number.
+        m_ColoredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_PlayerColor) + ">PLAYER " + m_PlayerNumber + "</color>";
     }
 
 
@@ -41,14 +45,14 @@ public class PlayerManager
     {
         //script à disable
 
-        m_CanvasGameObject.SetActive(false);
+       // m_CanvasGameObject.SetActive(false);
     }
 
     public void EnableControl()
     {
         //script à enable
 
-        m_CanvasGameObject.SetActive(true);
+      //  m_CanvasGameObject.SetActive(true);
     }
 
     public void Reset()
