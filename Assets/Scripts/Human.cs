@@ -129,9 +129,8 @@ public class Human : NetworkBehaviour
 
 
     }
-    [Command]
     public virtual void CmdAttack()
-    {      
+    {
     }
 
     public virtual void Skill()
