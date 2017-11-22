@@ -12,7 +12,6 @@ public class Paladin : Human {
     public float cooldown;
     public int HpMax;
 
-    [Command]
     public override void CmdAttack()
     {
         if (!isAtt)

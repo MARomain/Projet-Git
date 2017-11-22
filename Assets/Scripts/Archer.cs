@@ -27,13 +27,11 @@ public class Archer : Human
             StartCoroutine(TimeBetweenAttack());
         }
     }
-
-    [Command]
+    //
     void CmdInstantiateAttack()
     {
         GameObject go = Instantiate<GameObject>(attack, ShootPos.transform.position, ShootPos.transform.rotation);
         go.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
-        NetworkServer.Spawn(go);
     }
 
     IEnumerator TimeBetweenAttack()

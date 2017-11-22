@@ -12,7 +12,6 @@ public class Warrior : Human
     bool SkillUse = false;
     public float cooldown;
 
-    [Command]
     public override void CmdAttack()
     {
         if (!isAtt)

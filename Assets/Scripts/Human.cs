@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Human : NetworkBehaviour
+public class Human : MonoBehaviour
 {
     public int _life;
     public int _speed;
@@ -50,15 +50,15 @@ public class Human : NetworkBehaviour
     
     private void FixedUpdate()
     {
-        if (isLocalPlayer == false)
-            return;
+        //if (isLocalPlayer == false)
+        //    return;
         Movement();
     }
 
     protected virtual void Update()
     {
-        if (isLocalPlayer == false)
-            return;
+        //if (isLocalPlayer == false)
+        //    return;
         //Movement deadzone
         m_MovementInputValue = Input.GetAxis("Horizontal");
         if (Mathf.Abs(m_MovementInputValue) < m_deadzone)
@@ -102,7 +102,6 @@ public class Human : NetworkBehaviour
         }
 
         Death();
-
 
     }
 
@@ -153,6 +152,7 @@ public class Human : NetworkBehaviour
         {
             Destroy(gameObject);
         }
+
     }
 
 }
