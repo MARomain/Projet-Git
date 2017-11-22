@@ -55,7 +55,7 @@ public class Human : NetworkBehaviour
         Movement();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (isLocalPlayer == false)
             return;

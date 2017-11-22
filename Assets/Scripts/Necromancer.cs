@@ -7,10 +7,13 @@ public class Necromancer : Human
 {
 
         public GameObject attack;
-        bool isAtt = false;
+    public GameObject skill;
+    bool isAtt = false;
         public GameObject ShootPos;
         public float bulletSpeed;
         bool SkillUse = false;
+    public float cooldown;
+    public int HpMax;
 
     [Command]
     public override void CmdAttack()
@@ -36,14 +39,30 @@ public class Necromancer : Human
             if (!SkillUse)
             {
                 SkillUse = true;
-
-                StartCoroutine(Cooldown());
+            skill.gameObject.SetActive(true);
+            StartCoroutine(SkillTimeUse());
             }
         }
+    IEnumerator SkillTimeUse()
+    {
+        yield return new WaitForSeconds(2.15f);
+        skill.gameObject.SetActive(false);
+        //skill.GetComponent<BoxCollider>().enabled = false;
+        StartCoroutine(Cooldown());
+    }
 
-        IEnumerator Cooldown()
+    IEnumerator Cooldown()
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(cooldown);
             SkillUse = false;
         }
+
+    protected override void Update()
+    {
+        base.Update();
+        if (_life > HpMax)
+        {
+            _life = HpMax;
+        }
     }
+}
