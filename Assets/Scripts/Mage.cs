@@ -14,17 +14,22 @@ public class Mage : Human
     bool SkillUse = false;
     public int TpRange;
 
-    [Command]
     public override void CmdAttack()
     {
         if (!isAtt)
         {
             isAtt = true;
-            GameObject go = Instantiate<GameObject>(attack, ShootPos.transform.position, Quaternion.identity);
-            go.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
-            NetworkServer.Spawn(go);
+            Debug.Log("Atk");
+            CmdInstantiateAttack();
             StartCoroutine(TimeBetweenAttack());
         }        
+    }
+
+    [Command]
+    void CmdInstantiateAttack() {
+        GameObject go = Instantiate<GameObject>(attack, ShootPos.transform.position, Quaternion.identity);
+        go.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
+        NetworkServer.Spawn(go);
     }
 
     IEnumerator TimeBetweenAttack()
