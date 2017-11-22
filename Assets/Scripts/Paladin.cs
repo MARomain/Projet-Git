@@ -3,39 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Mage : Human
-{
-
+public class Paladin : Human {
 
     public GameObject attack;
     bool isAtt = false;
-    public GameObject ShootPos;
-    public float bulletSpeed;
     bool SkillUse = false;
-    public int TpRange;
+    public int heal;
     public float cooldown;
+    public int HpMax;
 
+    [Command]
     public override void CmdAttack()
     {
         if (!isAtt)
         {
             isAtt = true;
-            Debug.Log("Atk");
-            InstantiateAttack();
+            attack.GetComponent<BoxCollider>().enabled = true;
             StartCoroutine(TimeBetweenAttack());
-        }        
-    }
-
-    void InstantiateAttack() {
-        GameObject go = Instantiate<GameObject>(attack, ShootPos.transform.position, Quaternion.identity);
-        go.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
-        //NetworkServer.Spawn(go);
+        }
     }
 
     IEnumerator TimeBetweenAttack()
     {
         yield return new WaitForSeconds(1);
+        attack.GetComponent<BoxCollider>().enabled = false;
         isAtt = false;
+    }
+
+
+    IEnumerator Cooldown()
+    {
+        yield return new WaitForSeconds(cooldown);
+        SkillUse = false;
     }
 
     public override void Skill()
@@ -43,14 +42,18 @@ public class Mage : Human
         if (!SkillUse)
         {
             SkillUse = true;
-            transform.Translate(Vector3.forward.normalized * TpRange);
+            _life += heal;
             StartCoroutine(Cooldown());
         }
     }
 
-    IEnumerator Cooldown()
+    protected override void Update()
     {
-        yield return new WaitForSeconds(cooldown);
-        SkillUse = false;
+        base.Update();
+        if (_life > HpMax)
+        {
+            _life = HpMax;
+        }
     }
+
 }

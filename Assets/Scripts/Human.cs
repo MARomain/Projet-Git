@@ -55,7 +55,7 @@ public class Human : MonoBehaviour
         Movement();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         //if (isLocalPlayer == false)
         //    return;

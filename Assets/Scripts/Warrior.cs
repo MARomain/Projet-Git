@@ -7,15 +7,18 @@ public class Warrior : Human
 {
     public GameObject attack;
     public GameObject skill;
+    public Animator anim;
     bool isAtt = false;
     bool SkillUse = false;
+    public float cooldown;
 
     public override void CmdAttack()
     {
         if (!isAtt)
         {
             isAtt = true;
-            attack.GetComponent<BoxCollider>().enabled = true;
+            anim.SetBool("IsAtt", true);
+            attack.GetComponent<Collider>().enabled = true;
             StartCoroutine(TimeBetweenAttack());
         }
     } 
@@ -23,19 +26,20 @@ public class Warrior : Human
     IEnumerator TimeBetweenAttack()
     {
         yield return new WaitForSeconds(1);
-        attack.GetComponent<BoxCollider>().enabled = false;
+        attack.GetComponent<Collider>().enabled = false;
         isAtt = false;
+        anim.SetBool("IsAtt", false);
     }
     IEnumerator SkillTimeUse()
     {
         yield return new WaitForSeconds(2);
-        skill.gameObject.SetActive(false);
-        //skill.GetComponent<BoxCollider>().enabled = false;
+        //skill.gameObject.SetActive(false);
+        ////skill.GetComponent<BoxCollider>().enabled = false;
         StartCoroutine(Cooldown());
     }
     IEnumerator Cooldown()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(cooldown);
         SkillUse = false;
     }
 
