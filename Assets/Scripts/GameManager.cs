@@ -67,10 +67,7 @@ public class GameManager : Singleton<GameManager> {
         }
     }
 
-<<<<<<< HEAD
-=======
     // This is called from start and will run each phase of the game one after another.
->>>>>>> 64e4d74d9d1f22bfe8b2cd100ce3a3978447bfc2
     private IEnumerator GameLoop()
     {
         yield return StartCoroutine(RoundStarting());
