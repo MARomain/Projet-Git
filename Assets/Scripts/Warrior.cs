@@ -10,7 +10,6 @@ public class Warrior : Human
     bool isAtt = false;
     bool SkillUse = false;
 
-    [Command]
     public override void CmdAttack()
     {
         if (!isAtt)

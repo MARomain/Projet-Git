@@ -6,6 +6,7 @@ public class Attack : MonoBehaviour {
 
     public int Damage;
 
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")

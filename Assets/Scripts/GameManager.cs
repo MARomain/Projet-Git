@@ -9,16 +9,16 @@ public class GameManager : Singleton<GameManager> {
 
     public PlayerManager[] Players;
     public GameObject[] playerPrefab;
-    public int m_TotalRounds = 5;            // The number of rounds a single player has to win to win the game.
-    public float m_StartDelay = 3f;             // The delay between the start of RoundStarting and RoundPlaying phases.
-    public float m_EndDelay = 3f;               // The delay between the end of RoundPlaying and RoundEnding phases.
+    public int totalRounds = 5;
+    public float startDelay = 3f;
+    public float endDelay = 3f;
 
-    public Text m_MessageText;                  // Reference to the overlay Text to display winning text, etc.
-    private int m_RoundNumber;                  // Which round the game is currently on.
-    private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
-    private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
-    private PlayerManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
-    private PlayerManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
+    public Text messageText;
+    private int roundNumber;
+    private WaitForSeconds startWait;
+    private WaitForSeconds endWait;
+    private PlayerManager roundWinner;
+    private PlayerManager gameWinner;
 
     public Text timer;
     private bool timerActivated;
@@ -28,18 +28,16 @@ public class GameManager : Singleton<GameManager> {
 
     void Start()
     {
-        m_StartWait = new WaitForSeconds(m_StartDelay);
-        m_EndWait = new WaitForSeconds(m_EndDelay);
+        startWait = new WaitForSeconds(startDelay);
+        endWait = new WaitForSeconds(endDelay);
 
-        Human warrior = new Warrior();
+        //Human warrior = new Warrior();
+        //Human mage = new Mage();
 
-        Human mage = new Mage();
-
-        PlayerManager p1 = new PlayerManager();
-        p1.Setup();
-
-       
         SpawnPlayers();
+
+        //PlayerManager p1 = new PlayerManager();
+        //p1.Setup();
 
         StartCoroutine(GameLoop());
     }
@@ -69,32 +67,24 @@ public class GameManager : Singleton<GameManager> {
         }
     }
 
-    // This is called from start and will run each phase of the game one after another.
     private IEnumerator GameLoop()
     {
-        // Start off by running the 'RoundStarting' coroutine but don't return until it's finished.
         yield return StartCoroutine(RoundStarting());
 
-        // Once the 'RoundStarting' coroutine is finished, run the 'RoundPlaying' coroutine but don't return until it's finished.
         yield return StartCoroutine(RoundPlaying());
 
-        // Once execution has returned here, run the 'RoundEnding' coroutine, again don't return until it's finished.
         yield return StartCoroutine(RoundEnding());
 
-        // This code is not run until 'RoundEnding' has finished.  At which point, check if a game winner has been found.
-        if (m_GameWinner != null)
+        if (gameWinner != null)
         {
-            // If there is a game winner, restart the level.
             SceneManager.LoadScene(0);
         }
-        else if (m_RoundNumber == m_TotalRounds)    // si le nombre de round est le nombre max on stop le jeux 
+        else if (roundNumber == totalRounds)    // si le nombre de round est le nombre max on stop le jeux 
         {
             SceneManager.LoadScene(0);
         }
         else
         {
-            // If there isn't a winner yet, restart this coroutine so the loop continues.
-            // Note that this coroutine doesn't yield.  This means that the current version of the GameLoop will end.
             StartCoroutine(GameLoop());
         }
     }
@@ -103,18 +93,17 @@ public class GameManager : Singleton<GameManager> {
     private IEnumerator RoundStarting()
     {
         Debug.Log("roundtstaring");
-        // As soon as the round starts reset the tanks and make sure they can't move.
         ResetAllPlayers();
         DisableControl();
         timeLeft = roundTime;
 
 
         //Increment the round number and display text showing the players what round it is.
-        m_RoundNumber++;
-        m_MessageText.text = "ROUND " + m_RoundNumber;
+        roundNumber++;
+        messageText.text = "ROUND " + roundNumber;
 
         // Wait for the specified length of time until yielding control back to the game loop.
-        yield return m_StartWait;
+        yield return startWait;
     }
 
 
@@ -125,7 +114,7 @@ public class GameManager : Singleton<GameManager> {
         timerActivated = true;
 
         // Clear the text from the screen.
-        m_MessageText.text = string.Empty;
+        messageText.text = string.Empty;
 
         // While there is not one tank left...
         while (!OnePlayerLeft() && timeLeft > 0)
@@ -146,21 +135,21 @@ public class GameManager : Singleton<GameManager> {
         timerActivated = false;
 
         // Clear the winner from the previous round.
-        m_RoundWinner = null;
+        roundWinner = null;
 
         // See if there is a winner now the round is over.
-        m_RoundWinner = GetRoundWinner();
+        roundWinner = GetRoundWinner();
 
         // Now the winner's score has been incremented, see if someone has one the game.
-        if(m_RoundNumber == m_TotalRounds)
-        m_GameWinner = GetGameWinner();
+        if(roundNumber == totalRounds)
+        gameWinner = GetGameWinner();
 
         // Get a message based on the scores and whether or not there is a game winner and display it.
         string message = EndMessage();
-        m_MessageText.text = message;
+        messageText.text = message;
 
         // Wait for the specified length of time until yielding control back to the game loop.
-        yield return m_EndWait;
+        yield return endWait;
     }
 
 
@@ -219,19 +208,19 @@ public class GameManager : Singleton<GameManager> {
         string message = "EGALITE";
 
         // If there is a winner then change the message to reflect that.
-        if (m_RoundWinner != null)
-            message = m_RoundWinner.m_ColoredPlayerText + " EST EN TETE";
+        if (roundWinner != null)
+            message = roundWinner.m_ColoredPlayerText + " EST EN TETE";
 
         // Add some line breaks after the initial message.
         message += "\n\n\n\n";
 
         // If there is a game winner, change the entire message to reflect that.
-        if (m_GameWinner != null)
+        if (gameWinner != null)
         {
             Debug.Log("game winner");
-            message = m_GameWinner.m_ColoredPlayerText + " GAGNE LA PARTIE";
+            message = gameWinner.m_ColoredPlayerText + " GAGNE LA PARTIE";
         }
-        else if (m_RoundNumber == m_TotalRounds)
+        else if (roundNumber == totalRounds)
         {
             Debug.Log("égalité");
             message = "EGALITE";

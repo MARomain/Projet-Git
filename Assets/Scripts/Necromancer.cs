@@ -12,14 +12,12 @@ public class Necromancer : Human
         public float bulletSpeed;
         bool SkillUse = false;
 
-    [Command]
     public override void CmdAttack()
         {
             if (!isAtt)
             {
                 isAtt = true;
                 GameObject go = Instantiate<GameObject>(attack, ShootPos.transform.position, Quaternion.identity);
-                NetworkServer.Spawn(go);
             go.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
                 StartCoroutine(TimeBetweenAttack());
             }

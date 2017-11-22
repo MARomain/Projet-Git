@@ -20,16 +20,15 @@ public class Mage : Human
         {
             isAtt = true;
             Debug.Log("Atk");
-            CmdInstantiateAttack();
+            InstantiateAttack();
             StartCoroutine(TimeBetweenAttack());
         }        
     }
 
-    [Command]
-    void CmdInstantiateAttack() {
+    void InstantiateAttack() {
         GameObject go = Instantiate<GameObject>(attack, ShootPos.transform.position, Quaternion.identity);
         go.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
-        NetworkServer.Spawn(go);
+        //NetworkServer.Spawn(go);
     }
 
     IEnumerator TimeBetweenAttack()
