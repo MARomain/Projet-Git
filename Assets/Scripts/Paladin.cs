@@ -39,11 +39,19 @@ public class Paladin : Human {
         SkillUse = false;
     }
 
+    IEnumerator resetAnim()
+    {
+        yield return new WaitForSeconds(1);
+        anim.SetBool("IsHeal", false);
+    }
+
     public override void Skill()
     {
         if (!SkillUse)
         {
             SkillUse = true;
+            anim.SetBool("IsHeal", true);
+            StartCoroutine(resetAnim());
             _life += heal;
             StartCoroutine(Cooldown());
         }

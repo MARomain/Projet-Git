@@ -53,20 +53,20 @@ public class Human : MonoBehaviour
         switch (playerNumber)
         {
             case 1:
-                attackKey = KeyCode.Joystick1Button0;
-                skillKey = KeyCode.Joystick1Button2;
+                attackKey = KeyCode.Joystick1Button2;
+                skillKey = KeyCode.Joystick1Button0;
                 break;
             case 2:
-                attackKey = KeyCode.Joystick2Button0;
-                skillKey = KeyCode.Joystick2Button2;
+                attackKey = KeyCode.Joystick2Button2;
+                skillKey = KeyCode.Joystick2Button0;
                 break;
             case 3:
-                attackKey = KeyCode.Joystick3Button0;
-                skillKey = KeyCode.Joystick3Button2;
+                attackKey = KeyCode.Joystick3Button2;
+                skillKey = KeyCode.Joystick3Button0;
                 break;
             case 4:
-                attackKey = KeyCode.Joystick4Button0;
-                skillKey = KeyCode.Joystick4Button2;
+                attackKey = KeyCode.Joystick4Button2;
+                skillKey = KeyCode.Joystick4Button0;
                 break;
         }
     }

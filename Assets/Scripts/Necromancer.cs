@@ -8,6 +8,7 @@ public class Necromancer : Human
 
         public GameObject attack;
     public GameObject skill;
+    public Animator anim;
     bool isAtt = false;
         public GameObject ShootPos;
         public float bulletSpeed;
@@ -20,7 +21,8 @@ public class Necromancer : Human
             if (!isAtt)
             {
                 isAtt = true;
-                GameObject go = Instantiate<GameObject>(attack, ShootPos.transform.position, Quaternion.identity);
+            anim.SetBool("IsAtt", true);
+            GameObject go = Instantiate<GameObject>(attack, ShootPos.transform.position, ShootPos.transform.rotation);
             go.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
                 StartCoroutine(TimeBetweenAttack());
             }
@@ -29,7 +31,8 @@ public class Necromancer : Human
         IEnumerator TimeBetweenAttack()
         {
             yield return new WaitForSeconds(1);
-            isAtt = false;
+        anim.SetBool("IsAtt", false);
+        isAtt = false;
         }
 
         public override void Skill()
@@ -37,15 +40,18 @@ public class Necromancer : Human
             if (!SkillUse)
             {
                 SkillUse = true;
-            skill.gameObject.SetActive(true);
+            anim.SetBool("IsLS", true);
+            //skill.gameObject.SetActive(true);
+            skill.GetComponent<Collider>().enabled = true;
             StartCoroutine(SkillTimeUse());
             }
         }
     IEnumerator SkillTimeUse()
     {
         yield return new WaitForSeconds(2.15f);
-        skill.gameObject.SetActive(false);
-        //skill.GetComponent<BoxCollider>().enabled = false;
+        anim.SetBool("IsLS", false);
+        //skill.gameObject.SetActive(false);
+        skill.GetComponent<Collider>().enabled = false;
         StartCoroutine(Cooldown());
     }
 

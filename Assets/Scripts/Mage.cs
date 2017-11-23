@@ -27,7 +27,7 @@ public class Mage : Human
     }
 
     void InstantiateAttack() {
-        GameObject go = Instantiate<GameObject>(attack, ShootPos.transform.position, Quaternion.identity);
+        GameObject go = Instantiate<GameObject>(attack, ShootPos.transform.position, ShootPos.transform.rotation);
         go.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
         //NetworkServer.Spawn(go);
     }
