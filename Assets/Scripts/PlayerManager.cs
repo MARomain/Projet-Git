@@ -36,6 +36,31 @@ public class PlayerManager
 
         // Create a string using the correct color that says 'PLAYER 1' etc based on the tank's color and the player's number.
         m_ColoredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_PlayerColor) + ">PLAYER " + m_Instance.GetComponent<Human>().playerNumber + "</color>";
+
+        // Get all of the renderers of the tank.
+        MeshRenderer[] renderers = m_Instance.GetComponentsInChildren<MeshRenderer>();
+        //Material[] materials = m_Instance.GetComponentsInChildren<Material>();
+
+
+        // Go through all the renderers...
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            // ... set their material color to the color specific to this tank.
+            for (int j = 0; j < renderers[i].materials.Length; j++)
+            {
+                if (renderers[i].materials[j].name == "Couleur (Instance)")
+                    renderers[i].materials[j].color = m_PlayerColor;
+            }
+
+        }
+
+        //for (int i = 0; i < materials.Length; i++)
+        //{
+        //    // ... set their material color to the color specific to this tank.
+        //    if (materials[i].name == "Couleur")
+        //        materials[i].color = m_PlayerColor;
+
+        //}
     }
 
 
