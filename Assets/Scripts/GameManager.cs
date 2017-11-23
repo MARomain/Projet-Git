@@ -61,7 +61,6 @@ public class GameManager : Singleton<GameManager> {
         {
             Players[i].m_Instance =
                 Instantiate(playerPrefab[i % playerPrefab.Length], Players[i].m_SpawnPoint.position, Players[i].m_SpawnPoint.rotation) as GameObject;
-            Players[i].m_PlayerNumber = i + 1; //ça ça vient du script originel
             Players[i].m_Instance.GetComponent<Human>().playerNumber = i + 1; // cette ligne elle sert pour le score
             Players[i].Setup();
         }
