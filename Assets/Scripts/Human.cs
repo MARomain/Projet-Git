@@ -14,11 +14,10 @@ public class Human : MonoBehaviour
 
     [Header("Movements")]
     Vector3 movement;
-    private string m_MovementAxisName;
-    private string m_TurnAxisName;
-    private float m_MovementInputValue;
-    private float m_TurnInputValue;
-    public float m_PressValue;
+
+    private float movementRightValue;
+    private float movementUpValue;
+    public bool keyDown;
     public float m_Speed = 12f;
     public Rigidbody m_Rigidbody;
     private float m_deadzone = 0.2f;
@@ -27,19 +26,57 @@ public class Human : MonoBehaviour
 
     [Header("Aiming")]
     public float m_RotationSpeed;
-    private float m_TankTurretUpValue;
-    private float m_TankTurretRightValue;
+    private float aimUpValue;
+    private float aimRightValue;
     Vector3 finalDir;
 
-    
+    private string aimUp;
+    private string aimRight;
+    private string moveUp;
+    private string moveRight;
+    private KeyCode attackKey;
+    private KeyCode skillKey;
     public int playerNumber;
+
+
+
+
+    private void Start()
+    {
+        moveUp = "moveUp" + playerNumber;
+        moveRight = "moveRight" + playerNumber;
+
+        aimUp = "aimUp" + playerNumber;
+        aimRight = "aimRight" + playerNumber;
+
+
+        switch (playerNumber)
+        {
+            case 1:
+                attackKey = KeyCode.Joystick1Button0;
+                skillKey = KeyCode.Joystick1Button2;
+                break;
+            case 2:
+                attackKey = KeyCode.Joystick2Button0;
+                skillKey = KeyCode.Joystick2Button2;
+                break;
+            case 3:
+                attackKey = KeyCode.Joystick3Button0;
+                skillKey = KeyCode.Joystick3Button2;
+                break;
+            case 4:
+                attackKey = KeyCode.Joystick4Button0;
+                skillKey = KeyCode.Joystick4Button2;
+                break;
+        }
+    }
 
     public void Movement()
     {
-        Vector3 verticalMovement = transform.forward * m_MovementInputValue * m_Speed * Time.deltaTime;
-        Vector3 horizontalMovement = transform.right * m_MovementInputValue * m_Speed * Time.deltaTime;
+        Vector3 verticalMovement = transform.forward * movementRightValue * m_Speed * Time.deltaTime;
+        Vector3 horizontalMovement = transform.right * movementRightValue * m_Speed * Time.deltaTime;
 
-        movement.Set(m_TurnInputValue, 0f, m_MovementInputValue);
+        movement.Set(movementRightValue, 0f, movementUpValue);
         movement = movement.normalized * m_Speed * Time.deltaTime;
 
         //m_Rigidbody.MovePosition(transform.position + movement);
@@ -60,43 +97,43 @@ public class Human : MonoBehaviour
         //if (isLocalPlayer == false)
         //    return;
         //Movement deadzone
-        m_MovementInputValue = Input.GetAxis("Horizontal");
-        if (Mathf.Abs(m_MovementInputValue) < m_deadzone)
+        movementRightValue = Input.GetAxis(moveRight);
+        if (Mathf.Abs(movementRightValue) < m_deadzone)
         {
-            m_MovementInputValue = 0;
+            movementRightValue = 0;
         }
 
-        m_TurnInputValue = Input.GetAxis("Vertical");
-        if (Mathf.Abs(m_TurnInputValue) < m_deadzone)
+        movementUpValue = Input.GetAxis(moveUp);
+        if (Mathf.Abs(movementUpValue) < m_deadzone)
         {
-            m_TurnInputValue = 0;
+            movementUpValue = 0;
         }
 
 
         //Turret deadzone
-        m_TankTurretRightValue = Input.GetAxis("HorizontalTurret");
-        if (Mathf.Abs(m_TankTurretRightValue) < m_deadzone)
+        aimRightValue = Input.GetAxis(aimRight);
+        if (Mathf.Abs(aimRightValue) < m_deadzone)
         {
-            m_TankTurretRightValue = 0;
+            aimRightValue = 0;
         }
 
 
-        m_TankTurretUpValue = Input.GetAxis("VerticalTurret");
-        if (Mathf.Abs(m_TankTurretUpValue) < m_deadzone)
+        aimUpValue = Input.GetAxis(aimUp);
+        if (Mathf.Abs(aimUpValue) < m_deadzone)
         {
-            m_TankTurretUpValue = 0;
+            aimUpValue = 0;
         }
 
         Turn();
 
-        m_PressValue = Input.GetAxis("Attack");
-        if (m_PressValue == 1)
+        keyDown = Input.GetKeyDown(attackKey);
+        if (keyDown == true)
         {
             CmdAttack();
         }
 
-        m_PressValue = Input.GetAxis("Skill");
-        if (m_PressValue == 1)
+        keyDown = Input.GetKeyDown(skillKey);
+        if (keyDown == true)
         {
             Skill();
         }
@@ -113,7 +150,7 @@ public class Human : MonoBehaviour
         //Debug.Log(TurretTurnInputValue);
 
 
-        Vector3 TurretVector = new Vector3(m_TankTurretRightValue, 0, m_TankTurretUpValue);
+        Vector3 TurretVector = new Vector3(aimRightValue, 0, aimUpValue);
         float VectorLenght = Vector3.Magnitude(TurretVector);
         float step = m_RotationSpeed * Time.deltaTime;
         Vector3 newDir = Vector3.RotateTowards(transform.forward, TurretVector, step, 0.0f);
