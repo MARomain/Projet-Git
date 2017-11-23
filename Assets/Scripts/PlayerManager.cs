@@ -17,13 +17,15 @@ public class PlayerManager
 
 
     private Human m_Human;
-    private GameObject m_CanvasGameObject;                  // Used to disable the world space UI during the Starting and Ending phases of each round.
+    private GameObject textAnnonce;                  // Used to disable the world space UI during the Starting and Ending phases of each round.
+    private GameObject timer;
 
     public void Setup()
     {
         // Get reference to the components
         m_Human = m_Instance.GetComponent<Human>();
-        m_CanvasGameObject = GameObject.Find("Canvas/GameManager");
+        textAnnonce = GameObject.Find("Canvas/GameManager");
+        timer = GameObject.Find("Canvas/Timer");
 
         //MeshRenderer[] renderers = m_Instance.GetComponentsInChildren<MeshRenderer>();
         //// Go through all the renderers...
@@ -70,14 +72,16 @@ public class PlayerManager
     {
         //script à disable
         m_Human.enabled = false;
-        m_CanvasGameObject.SetActive(false);
+        textAnnonce.SetActive(true);
+        timer.SetActive(false);
     }
 
     public void EnableControl()
     {
         //script à enable
         m_Human.enabled = true;
-        m_CanvasGameObject.SetActive(true);
+        textAnnonce.SetActive(false);
+        timer.SetActive(true);
     }
 
     public void Reset()
@@ -87,6 +91,7 @@ public class PlayerManager
 
         m_Instance.SetActive(false);
         m_Instance.SetActive(true);
+
     }
 
 

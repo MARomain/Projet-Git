@@ -109,6 +109,7 @@ public class GameManager : Singleton<GameManager> {
 
     private IEnumerator RoundPlaying()
     {
+        Debug.Log("roundplaying");
         // As soon as the round begins playing let the players control the tanks.
         EnableControl();
         timerActivated = true;
@@ -166,7 +167,6 @@ public class GameManager : Singleton<GameManager> {
             if (Players[i].m_Instance.activeSelf)
                 numPlayersLeft++;
         }
-
         // If there are one or fewer tanks remaining return true, otherwise return false.
         return numPlayersLeft <= 1;
     }

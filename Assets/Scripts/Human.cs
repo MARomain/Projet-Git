@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class Human : MonoBehaviour
 {
+    public int _startingLife;
     public int _life;
     public int _speed;
     public int _damage;
@@ -39,7 +40,11 @@ public class Human : MonoBehaviour
     public int playerNumber;
 
 
-
+    private void OnEnable()
+    {
+        // When the tank is enabled, reset the tank's health and whether or not it's dead.
+        _life = _startingLife; //réinitialiser la vie des joueurs
+    }
 
     private void Start()
     {
@@ -187,7 +192,8 @@ public class Human : MonoBehaviour
     {
         if(_life <= 0)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            //Destroy(gameObject);
         }
 
     }
