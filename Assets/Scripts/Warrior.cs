@@ -34,7 +34,8 @@ public class Warrior : Human
     {
         yield return new WaitForSeconds(2);
         //skill.gameObject.SetActive(false);
-        ////skill.GetComponent<BoxCollider>().enabled = false;
+        skill.GetComponent<Collider>().enabled = false;
+        anim.SetBool("IsBlk", false);
         StartCoroutine(Cooldown());
     }
     IEnumerator Cooldown()
@@ -48,8 +49,9 @@ public class Warrior : Human
         if (!SkillUse)
         {
             SkillUse = true;
-            skill.gameObject.SetActive(true);
-            //skill.GetComponent<BoxCollider>().enabled = true;
+            //skill.gameObject.SetActive(true);
+            skill.GetComponent<BoxCollider>().enabled = true;
+            anim.SetBool("IsBlk", true);
             StartCoroutine(SkillTimeUse());
         }
     }

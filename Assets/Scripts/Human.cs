@@ -109,7 +109,7 @@ public class Human : MonoBehaviour
     private void Turn()
     {
 
-        // transform.Rotate(Vector3.up, TurretTurnInputValue * TurretTurnSpeed * Time.deltaTime );        //* TurretTurnSpeed * Time.deltaTime
+        //transform.Rotate(Vector3.up, TurretTurnInputValue * TurretTurnSpeed * Time.deltaTime);        //* TurretTurnSpeed * Time.deltaTime
         //Debug.Log(TurretTurnInputValue);
 
 

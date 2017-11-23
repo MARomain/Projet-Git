@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 public class Paladin : Human {
 
     public GameObject attack;
+    public Animator anim;
     bool isAtt = false;
     bool SkillUse = false;
     public int heal;
@@ -17,7 +18,8 @@ public class Paladin : Human {
         if (!isAtt)
         {
             isAtt = true;
-            attack.GetComponent<BoxCollider>().enabled = true;
+            anim.SetBool("IsAtt", true);
+            attack.GetComponent<Collider>().enabled = true;
             StartCoroutine(TimeBetweenAttack());
         }
     }
@@ -25,7 +27,8 @@ public class Paladin : Human {
     IEnumerator TimeBetweenAttack()
     {
         yield return new WaitForSeconds(1);
-        attack.GetComponent<BoxCollider>().enabled = false;
+        anim.SetBool("IsAtt", false);
+        attack.GetComponent<Collider>().enabled = false;
         isAtt = false;
     }
 
