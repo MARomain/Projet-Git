@@ -43,7 +43,7 @@ public class Paladin : Human {
     IEnumerator resetAnim()
     {
         yield return new WaitForSeconds(1);
-        Heal.GetComponent<ParticleSystem>().enableEmission = false;
+        //Heal.GetComponent<ParticleSystem>().enableEmission = false;
         anim.SetBool("IsHeal", false);
     }
 
@@ -53,7 +53,7 @@ public class Paladin : Human {
         {
             SkillUse = true;
             anim.SetBool("IsHeal", true);
-            Heal.GetComponent<ParticleSystem>().enableEmission = true;
+            //Heal.GetComponent<ParticleSystem>().enableEmission = true;
             StartCoroutine(resetAnim());
             _life += heal;
             StartCoroutine(Cooldown());

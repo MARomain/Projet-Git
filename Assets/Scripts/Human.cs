@@ -46,7 +46,7 @@ public class Human : MonoBehaviour
         _life = _startingLife; //réinitialiser la vie des joueurs
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         moveUp = "moveUp" + playerNumber;
         moveRight = "moveRight" + playerNumber;
@@ -134,6 +134,7 @@ public class Human : MonoBehaviour
         keyDown = Input.GetKeyDown(attackKey);
         if (keyDown == true)
         {
+            Debug.Log("press");
             CmdAttack();
         }
 
@@ -192,10 +193,11 @@ public class Human : MonoBehaviour
     {
         if(_life <= 0)
         {
-            gameObject.SetActive(false);
-            //Destroy(gameObject);
+           // gameObject.SetActive(false);
+            Destroy(gameObject);
         }
 
     }
+
 
 }
