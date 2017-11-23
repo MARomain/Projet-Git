@@ -8,6 +8,7 @@ public class Mage : Human
 
 
     public GameObject attack;
+    public Animator anim;
     bool isAtt = false;
     public GameObject ShootPos;
     public float bulletSpeed;
@@ -20,7 +21,7 @@ public class Mage : Human
         if (!isAtt)
         {
             isAtt = true;
-            Debug.Log("Atk");
+            anim.SetBool("IsAtt", true);
             InstantiateAttack();
             StartCoroutine(TimeBetweenAttack());
         }        
@@ -29,13 +30,20 @@ public class Mage : Human
     void InstantiateAttack() {
         GameObject go = Instantiate<GameObject>(attack, ShootPos.transform.position, ShootPos.transform.rotation);
         go.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
-        //NetworkServer.Spawn(go);
+        
     }
 
     IEnumerator TimeBetweenAttack()
     {
         yield return new WaitForSeconds(1);
+        anim.SetBool("IsAtt", false);
         isAtt = false;
+    }
+
+    IEnumerator resetAnim()
+    {
+        yield return new WaitForSeconds(1);
+        anim.SetBool("Tp", false);
     }
 
     public override void Skill()
@@ -43,6 +51,8 @@ public class Mage : Human
         if (!SkillUse)
         {
             SkillUse = true;
+            anim.SetBool("Tp", false);
+            StartCoroutine(resetAnim());
             transform.Translate(Vector3.forward.normalized * TpRange);
             StartCoroutine(Cooldown());
         }

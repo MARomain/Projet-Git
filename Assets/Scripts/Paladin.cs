@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 public class Paladin : Human {
 
     public GameObject attack;
+    public GameObject Heal;
     public Animator anim;
     bool isAtt = false;
     bool SkillUse = false;
@@ -42,6 +43,7 @@ public class Paladin : Human {
     IEnumerator resetAnim()
     {
         yield return new WaitForSeconds(1);
+        Heal.GetComponent<ParticleSystem>().enableEmission = false;
         anim.SetBool("IsHeal", false);
     }
 
@@ -51,6 +53,7 @@ public class Paladin : Human {
         {
             SkillUse = true;
             anim.SetBool("IsHeal", true);
+            Heal.GetComponent<ParticleSystem>().enableEmission = true;
             StartCoroutine(resetAnim());
             _life += heal;
             StartCoroutine(Cooldown());

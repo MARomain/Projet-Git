@@ -7,6 +7,7 @@ public class Warrior : Human
 {
     public GameObject attack;
     public GameObject skill;
+    public GameObject player;
     public Animator anim;
     bool isAtt = false;
     bool SkillUse = false;
@@ -27,6 +28,7 @@ public class Warrior : Human
     {
         yield return new WaitForSeconds(1);
         attack.GetComponent<Collider>().enabled = false;
+        
         isAtt = false;
         anim.SetBool("IsAtt", false);
     }
@@ -35,6 +37,7 @@ public class Warrior : Human
         yield return new WaitForSeconds(2);
         //skill.gameObject.SetActive(false);
         skill.GetComponent<Collider>().enabled = false;
+        player.GetComponent<Collider>().enabled = true;
         anim.SetBool("IsBlk", false);
         StartCoroutine(Cooldown());
     }
@@ -50,7 +53,8 @@ public class Warrior : Human
         {
             SkillUse = true;
             //skill.gameObject.SetActive(true);
-            skill.GetComponent<BoxCollider>().enabled = true;
+            skill.GetComponent<Collider>().enabled = true;
+            player.GetComponent<Collider>().enabled = false;
             anim.SetBool("IsBlk", true);
             StartCoroutine(SkillTimeUse());
         }

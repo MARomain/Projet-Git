@@ -41,8 +41,8 @@ public class Necromancer : Human
             {
                 SkillUse = true;
             anim.SetBool("IsLS", true);
-            //skill.gameObject.SetActive(true);
-            skill.GetComponent<Collider>().enabled = true;
+            skill.gameObject.SetActive(true);
+            //skill.GetComponent<Collider>().enabled = true;
             StartCoroutine(SkillTimeUse());
             }
         }
@@ -50,8 +50,8 @@ public class Necromancer : Human
     {
         yield return new WaitForSeconds(2.15f);
         anim.SetBool("IsLS", false);
-        //skill.gameObject.SetActive(false);
-        skill.GetComponent<Collider>().enabled = false;
+        skill.gameObject.SetActive(false);
+        //skill.GetComponent<Collider>().enabled = false;
         StartCoroutine(Cooldown());
     }
 

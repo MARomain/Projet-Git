@@ -92,7 +92,7 @@ public class GameManager : Singleton<GameManager> {
 
     private IEnumerator RoundStarting()
     {
-        Debug.Log("roundtstaring");
+        //Debug.Log("roundtstaring");
         ResetAllPlayers();
         DisableControl();
         timeLeft = roundTime;
