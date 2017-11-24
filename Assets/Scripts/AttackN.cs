@@ -16,7 +16,7 @@ public class AttackN : Attack {
         while (true)
         {
             human._life += Damage;
-            oter.gameObject.GetComponent<Human>().takeDamage(Damage);
+            oter.gameObject.GetComponent<Human>().takeDamageNecromancien(Damage);
             yield return new WaitForSeconds(0.1f);
         }
     }

@@ -13,6 +13,19 @@ public class Warrior : Human
     bool SkillUse = false;
     public float cooldown;
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        anim.SetBool("IsAtt", false);
+        anim.SetBool("IsBlk", false);
+    }
+
+    protected void OnDisable()
+    {
+        anim.SetBool("IsAtt", false);
+        anim.SetBool("IsBlk", false);
+    }
+
     public override void CmdAttack()
     {
         if (!isAtt)

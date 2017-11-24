@@ -18,14 +18,15 @@ public class PlayerManager
 
     private Human m_Human;
     private GameObject textAnnonce;                  // Used to disable the world space UI during the Starting and Ending phases of each round.
-    private GameObject timer;
+    private static GameObject timer;
 
     public void Setup()
     {
         // Get reference to the components
         m_Human = m_Instance.GetComponent<Human>();
         textAnnonce = GameObject.Find("Canvas/GameManager");
-        timer = GameObject.Find("Canvas/Timer");
+        if (timer == null)
+            timer = GameObject.Find("Canvas/Timer");
 
         //MeshRenderer[] renderers = m_Instance.GetComponentsInChildren<MeshRenderer>();
         //// Go through all the renderers...

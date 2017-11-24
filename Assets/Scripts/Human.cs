@@ -40,10 +40,12 @@ public class Human : MonoBehaviour
     public int playerNumber;
 
 
-    private void OnEnable()
+
+    protected virtual void OnEnable()
     {
         // When the tank is enabled, reset the tank's health and whether or not it's dead.
         _life = _startingLife; //réinitialiser la vie des joueurs
+        GameObject.Find("Barre2VieScript").GetComponent<Barre2Vie>().UpdateBarre2Vie(playerNumber, _life * 100 / _startingLife);
     }
 
     protected virtual void Start()
@@ -146,6 +148,8 @@ public class Human : MonoBehaviour
 
         Death();
 
+        //update barre 2 vie
+        GameObject.Find("Barre2VieScript").GetComponent<Barre2Vie>().UpdateBarre2Vie(playerNumber, _life * 100 / _startingLife);
     }
 
 
@@ -181,22 +185,29 @@ public class Human : MonoBehaviour
 
     public virtual void takeDamage(int damage)
     {
+        //degat
         _life -= damage;
+        //update score
         if (playerNumber == 1)
             Score.Instance.AddScore(Score.Instance.scorePerHit, 2);
-
         if (playerNumber == 2)
         Score.Instance.AddScore(Score.Instance.scorePerHit, 1);
     }
+
+    public virtual void takeDamageNecromancien(int damage)
+    {
+        //hotfix car la necromancien ajouter du score à chaque tick de son skill
+        _life -= damage;
+    }
+
 
     public void Death()
     {
         if(_life <= 0)
         {
-           // gameObject.SetActive(false);
-            Destroy(gameObject);
+            Score.Instance.AddOnDeath(playerNumber);
+            gameObject.SetActive(false);
         }
-
     }
 
 
