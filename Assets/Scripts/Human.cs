@@ -40,6 +40,11 @@ public class Human : MonoBehaviour
     public int playerNumber;
 
 
+    private string attackButton;
+    private string skillButton;
+    private float attackAxisValue;
+    private float skilAxisValue;
+
 
     protected virtual void OnEnable()
     {
@@ -56,6 +61,8 @@ public class Human : MonoBehaviour
         aimUp = "aimUp" + playerNumber;
         aimRight = "aimRight" + playerNumber;
 
+        attackButton = "attack" + playerNumber;
+        skillButton = "skill" + playerNumber;
 
         switch (playerNumber)
         {
@@ -133,16 +140,15 @@ public class Human : MonoBehaviour
 
         Turn();
 
-        keyDown = Input.GetKeyDown(attackKey);
-        if (keyDown == true)
+        if(Input.GetAxis(attackButton) > 0.2f)
         {
             Debug.Log("press");
             CmdAttack();
         }
 
-        keyDown = Input.GetKeyDown(skillKey);
-        if (keyDown == true)
+        if (Input.GetAxis(skillButton) > 0.2f)
         {
+            
             Skill();
         }
 
@@ -150,6 +156,8 @@ public class Human : MonoBehaviour
 
         //update barre 2 vie
         GameObject.Find("Barre2VieScript").GetComponent<Barre2Vie>().UpdateBarre2Vie(playerNumber, _life * 100 / _startingLife);
+
+        Debug.Log(Input.GetAxis(attackButton));
     }
 
 
